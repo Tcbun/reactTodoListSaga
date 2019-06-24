@@ -1,20 +1,19 @@
 import React, { Component } from 'react'
-import { Input, Button } from 'antd'
-import { List, Typography } from 'antd'
 import store from './store';
 import { getInputChange,getAddListItem,getDeleteListItem } from './store/actionCreators'
+import TodoListUI from './TodoListUI';
 
 class TodoList extends Component {
     constructor(props) {
         super(props)
         this.state = store.getState()
         // console.log(store.getState())
-        this.onHandleChange = this.onHandleChange.bind(this)
+        this.onHandleChange = this.handleChange.bind(this)
         this.handleStoreChange = this.handleStoreChange.bind(this)
-        this.HandleBtnClick = this.HandleBtnClick.bind(this)
+        this.HandleBtnClick = this.handleBtnClick.bind(this)
         store.subscribe(this.handleStoreChange)
     }
-    onHandleChange(e) {
+    handleChange(e) {
         const action = getInputChange(e.target.value)
         store.dispatch(action)
         console.log('changed')
@@ -23,36 +22,23 @@ class TodoList extends Component {
         // console.log('store change')
         this.setState(store.getState())
     }
-    HandleBtnClick(e) {
+    handleBtnClick(e) {
         const action = getAddListItem()
         store.dispatch(action)
     }
-    deleteItem(index) {
+    handledeleteItem(index) {
         const action = getDeleteListItem(index)
         store.dispatch(action)
     }
     render() {
         return (
-            <div>
-                <div>
-                    <Input
-                        placeholder={this.state.inputValue}
-                        onChange={this.onHandleChange}
-                    />
-                    <Button type="primary" onClick={this.HandleBtnClick}>提交</Button>
-                </div>
-                <div>
-                    <List
-                        bordered
-                        dataSource={this.state.list}
-                        renderItem={(item,index) => (
-                            <List.Item onClick={this.deleteItem.bind(this,index)}>
-                                <Typography.Text mark>[ITEM]</Typography.Text> {item}
-                            </List.Item>
-                        )}
-                    />
-                </div>
-            </div>
+            <TodoListUI 
+                inputValue={this.state.inputValue}
+                handleChange={this.handleChange}
+                handleBtnClick={this.handleBtnClick}
+                list={this.state.list}
+                handledeleteItem={this.handledeleteItem}
+            />
         )
     }
 }
