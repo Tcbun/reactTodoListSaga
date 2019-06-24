@@ -7,8 +7,9 @@ const TodoListUI = (props) => {
         <div>
             <div>
                 <Input
-                    placeholder={props.inputValue}
+                    placeholder='todo info'
                     onChange={props.handleChange}
+                    value={props.inputValue}
                 />
                 <Button type="primary" onClick={props.handleBtnClick}>提交</Button>
             </div>
