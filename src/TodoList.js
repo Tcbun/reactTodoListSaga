@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import store from './store';
-import { getInputChange, getAddListItem, getDeleteListItem,initList } from './store/actionCreators'
+import { getInputChange, getAddListItem, getDeleteListItem,getTodoList } from './store/actionCreators'
 import TodoListUI from './TodoListUI';
-import Axios from 'axios';
+
 
 class TodoList extends Component {
     constructor(props) {
@@ -15,13 +15,8 @@ class TodoList extends Component {
         store.subscribe(this.handleStoreChange)
     }
     componentDidMount() {
-        Axios.get('https://www.fastmock.site/mock/06c9d41c50b3aca91d14f8297dab6173/Test/test').then((res) => {
-            console.log(res)
-            const data = res.data.data
-            const action = initList(data)
-            console.log(action)
-            store.dispatch(action)
-        })
+        const action = getTodoList()
+        store.dispatch(action)
     }
     handleChange(e) {
         const action = getInputChange(e.target.value)
